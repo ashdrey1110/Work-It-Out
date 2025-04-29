@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8081;
+const PORT = 3001;
 const knex = require("knex")(require("../knexfile.js")["development"]);
 
 app.get("/", (request, response) => {
@@ -8,5 +8,5 @@ app.get("/", (request, response) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Your knex and express app are running successfully");
+  console.log(`App listening at http://localhost:${PORT}`);
 });
