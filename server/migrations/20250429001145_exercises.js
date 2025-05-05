@@ -6,21 +6,21 @@ exports.up = function (knex) {
   return knex.schema.createTable("exercises", (table) => {
     table.increments("id").primary();
     table.string("name");
-    table.string("description", 1000);
     table.integer("calories_per_hour");
-    table.integer("body_focus_id");
-    table
-      .foreign("body_focus_id")
-      .references("id")
-      .inTable("body_focus")
-      .onDelete("CASCADE");
-    table.integer("workout_type_id");
-    table
-      .foreign("workout_type_id")
-      .references("id")
-      .inTable("workout_type")
-      .onDelete("CASCADE");
     table.integer("effort");
+    table.boolean("sport")
+    table.integer("upper_body");
+    table.integer("lower_body");
+    table.integer("full_body");
+    table.integer("core");
+    table.integer("arms");
+    table.integer("legs");
+    table.integer("glutes");
+    table.integer("aerobic_cardio");
+    table.integer("anaerobic_cardio");
+    table.integer("strength");
+    table.integer("flexibility");
+    table.integer("balance");
   });
 };
 
@@ -29,12 +29,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema
-    .alterTable("exercises", (table) => {
-      table.dropForeign("body_focus_id");
-      table.dropForeign("workout_type_id");
-    })
-    .then(() => {
-      return knex.schema.dropTableIfExists("exercises");
-    });
+  return knex.schema.dropTableIfExists("exercises");
 };

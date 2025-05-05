@@ -12,8 +12,7 @@ exports.seed = async function (knex) {
       calorie_burn: 600,
       duration: 50,
       effort: 4,
-      body_focus_id: 2,
-      workout_type_id: 3,
+      tags: "lower_body, legs",
     },
   ]);
 };

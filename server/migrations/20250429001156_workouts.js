@@ -10,18 +10,7 @@ exports.up = function (knex) {
     table.integer("calorie_burn");
     table.integer("duration");
     table.integer("effort");
-    table.integer("body_focus_id");
-    table
-      .foreign("body_focus_id")
-      .references("id")
-      .inTable("body_focus")
-      .onDelete("CASCADE");
-    table.integer("workout_type_id");
-    table
-      .foreign("workout_type_id")
-      .references("id")
-      .inTable("workout_type")
-      .onDelete("CASCADE");
+    table.string("tags", 1000);
   });
 };
 
@@ -30,12 +19,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema
-    .alterTable("workouts", (table) => {
-      table.dropForeign("body_focus_id");
-      table.dropForeign("workout_type_id");
-    })
-    .then(() => {
-      return knex.schema.dropTableIfExists("workouts");
-    });
+  return knex.schema.dropTableIfExists("workouts");
 };

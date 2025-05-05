@@ -4,6 +4,8 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable("exercise_workout", (table) => {
+    table.integer("sets");
+    table.integer("reps");
     table.integer("exercise_id");
     table
       .foreign("exercise_id")
