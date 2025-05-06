@@ -13,15 +13,17 @@ const usersRoute = require("./routes/users.js");
 const body_focusRoute = require("./routes/body_focus.js");
 const workout_typeRoute = require("./routes/workout_type.js");
 const exercisesRoute = require("./routes/exercises.js");
-// const workoutsRoute = require("./routes/workouts");
-// const user_workoutRoute = require("./routes/user_workout");
+const workoutsRoute = require("./routes/workouts");
+const exercise_workoutRoute = require("./routes/exercise_workout");
+const user_workoutRoute = require("./routes/user_workout");
 
 app.use("/users", usersRoute);
 app.use("/body_focus", body_focusRoute);
 app.use("/workout_type", workout_typeRoute);
 app.use("/exercises", exercisesRoute);
-// app.use("/workouts", workoutsRoute);
-// app.use("/user_workout", user_workoutRoute);
+app.use("/workouts", workoutsRoute);
+app.use("/exercise_workout", exercise_workoutRoute);
+app.use("/user_workout", user_workoutRoute);
 
 app.get("/", (request, response) => {
   response.send("Application up and running");

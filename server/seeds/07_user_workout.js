@@ -14,3 +14,11 @@ exports.seed = async function (knex) {
     },
   ]);
 };
+
+// example for new post request after posting new exercise-workout link and workout
+// {
+//   "user_id": 1,
+//   "workout_id": 2,
+//   "rating": 3,
+//   "comment": "good workout, easy"
+// }

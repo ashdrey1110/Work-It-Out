@@ -14,3 +14,11 @@ exports.seed = async function (knex) {
     { sets: 1, reps: 1, exercise_id: 3, workout_id: 1 },
   ]);
 };
+
+// EXAMPLE FOR POST REQUEST after posting a new workout
+// {
+//   "sets": 3,
+//   "reps": 8,
+//   "exercise_id": 34,
+//   "workout_id": 2
+// }

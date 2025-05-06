@@ -16,3 +16,13 @@ exports.seed = async function (knex) {
     },
   ]);
 };
+
+// example for post request
+// {
+//   "name": "Tuesday Arms",
+//   "description": "Working our arms this Tuesday",
+//   "calorie_burn": 500,
+//   "duration": 50,
+//   "effort": 3,
+//   "tags": "upper_body, arms"
+// }
