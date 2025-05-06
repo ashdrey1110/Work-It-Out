@@ -3,7 +3,7 @@ const router = express.Router();
 const knex = require("knex")(require("../../knexfile")["development"]);
 
 router.get("/", (req, res) => {
-  knex("users")
+  knex("body_focus")
     .select("*")
     .then((users) => res.status(200).json(users))
     .catch((err) => res.status(500).json({ error: err.message }));
@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   let id = req.params.id;
-  knex("users")
+  knex("body_focus")
     .select()
     .where("id", id)
     .then((users) => res.status(200).json(users))
@@ -22,7 +22,7 @@ router.get("/:id", (req, res) => {
 
 router.get("/name/:name", (req, res) => {
   let name = req.params.name;
-  knex("users")
+  knex("body_focus")
     .select()
     .whereILike("name", `%${name}%`)
     .then((users) => res.status(200).json(users))
