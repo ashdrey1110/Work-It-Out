@@ -22,7 +22,7 @@ router.get("/name/:name", (req, res) => {
   let name = req.params.name;
   knex("exercises")
     .select()
-    .whereILike("name", `${name}`)
+    .whereILike("name", `%${name}%`)
     .then((exercises) => res.status(200).json(exercises))
     .catch((err) => res.status(500).json({ error: err.message }));
 });
