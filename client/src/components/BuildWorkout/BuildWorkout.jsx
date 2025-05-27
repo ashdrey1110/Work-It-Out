@@ -10,8 +10,13 @@ function BuildWorkout() {
   return (
     <>
       <Button onClick={() => navigate("/")}>Go Home</Button>
-      <h1> Hello this is the BuildWorkout page!</h1>
+      <h1>Build Your Workout</h1>
+      <h2>Effort</h2>
+      <h2>Body Focus</h2>
+      <h2>Type of Workout</h2>
+      <h2>Duration</h2>
       <WorkoutGoals />
+      <h2>Must-Haves</h2>
     </>
   );
 }
