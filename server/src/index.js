@@ -16,6 +16,10 @@ const exercisesRoute = require("./routes/exercises.js");
 const workoutsRoute = require("./routes/workouts");
 const exercise_workoutRoute = require("./routes/exercise_workout");
 const user_workoutRoute = require("./routes/user_workout");
+const endurance_setsRoute = require("./routes/endurance_sets");
+const power_setsRoute = require("./routes/power_sets");
+const strength_setsRoute = require("./routes/strength_sets");
+const hypertrophy_setsRoute = require("./routes/hypertrophy_sets");
 
 app.use("/users", usersRoute);
 app.use("/body_focus", body_focusRoute);
@@ -24,6 +28,10 @@ app.use("/exercises", exercisesRoute);
 app.use("/workouts", workoutsRoute);
 app.use("/exercise_workout", exercise_workoutRoute);
 app.use("/user_workout", user_workoutRoute);
+app.use("/endurance_sets", endurance_setsRoute);
+app.use("/power_sets", power_setsRoute);
+app.use("/strength_sets", strength_setsRoute);
+app.use("/hypertrophy_sets", hypertrophy_setsRoute);
 
 app.get("/", (request, response) => {
   response.send("Application up and running");
