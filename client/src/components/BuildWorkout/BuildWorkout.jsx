@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./BuildWorkout.css";
 import { useNavigate, Link } from "react-router-dom";
 import ExerciseSets from "../ExerciseSets/ExerciseSets.jsx";
+import WorkoutAlgo from "../BuildWorkout/WorkoutAlgo.jsx";
 import {
   ToggleButtonGroup,
   ToggleButton,
@@ -12,9 +13,19 @@ import {
 } from "@mui/material";
 
 function BuildWorkout() {
+  const [effort, setEffort] = useState(1);
   const [bodyFocus, setBodyFocus] = useState("");
-  const [workoutType, setWorkoutType] = useState();
+  const [workoutType, setWorkoutType] = useState("");
+  const [duration, setDuration] = useState(0);
+  const [exerciseSet, setExerciseSet] = useState([]);
+  const [exerciseBank, setExerciseBank] = useState([]);
+  const [done, setDone] = useState();
+
   const navigate = useNavigate();
+
+  const handleEffortChange = (event, newEffort) => {
+    setEffort(newEffort);
+  };
 
   const handleBodyFocusChange = (event, newBodyFocus) => {
     setBodyFocus(newBodyFocus);
@@ -23,6 +34,42 @@ function BuildWorkout() {
   const handleWorkoutTypeChange = (event, newWorkoutType) => {
     setWorkoutType(newWorkoutType);
   };
+
+  const handleDurationChange = (event, newDuration) => {
+    setDuration(newDuration);
+  };
+
+  const handleExerciseSetReceived = (data) => {
+    setExerciseSet(data);
+  };
+
+  const handleDoneClick = () => {
+    setDone(true);
+    console.log(
+      `effort is ${effort}, body focus is ${bodyFocus}, workout/exercise type is ${workoutType}, duration is ${duration}, exercise set id is ${exerciseSet[3].id} with ${exerciseSet[3].sets} sets and ${exerciseSet[3].reps} reps`
+    );
+  };
+
+  // "/specific/:effort/:focus/:type/:sport"
+
+  useEffect(() => {
+    if (!done) {
+      setExerciseBank([]);
+      return;
+    }
+    fetch(
+      `http://localhost:8080/exercises/specific/${effort}/${bodyFocus}/${workoutType}/false`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setExerciseBank(data);
+        console.log(
+          `exercise bank's first few exercises are ${data[0].name}, ${data[1].name}, and ${data[3].name}`
+        );
+        WorkoutAlgo(data, exerciseSet, duration);
+      })
+      .catch((e) => console.error("Failed to fetch exercises", e));
+  }, [done, effort, bodyFocus, workoutType]);
 
   return (
     <>
@@ -36,6 +83,7 @@ function BuildWorkout() {
       <Slider
         aria-label="Effort"
         defaultValue={1}
+        onChange={handleEffortChange}
         // getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         shiftStep={1}
@@ -55,33 +103,33 @@ function BuildWorkout() {
         spacing={2}
       >
         <Tooltip title="Arms, shoulders, back, biceps, triceps, chest, core">
-          <ToggleButton value="1">Upper Body</ToggleButton>
+          <ToggleButton value="upper_body">Upper Body</ToggleButton>
         </Tooltip>
         <Tooltip title="Legs, quads, hamstrings, glutes, calves">
-          <ToggleButton value="2">Lower Body</ToggleButton>
+          <ToggleButton value="lower_body">Lower Body</ToggleButton>
         </Tooltip>
         <Tooltip title="The whole body, core">
-          <ToggleButton value="3">Full Body</ToggleButton>
+          <ToggleButton value="full_body">Full Body</ToggleButton>
         </Tooltip>
       </ToggleButtonGroup>
       <h2>Type of Exercise</h2>
       <p>
         Different exercises can help you stay active in different ways. All are
-        important to a balanced lifestyle.{" "}
+        important to a balanced lifestyle.
       </p>
       <ToggleButtonGroup
         color="primary"
         value={workoutType}
-        exclusive // Only one can be selected
+        exclusive
         onChange={handleWorkoutTypeChange}
         aria-label="Type of Workout"
         spacing={2}
       >
         <Tooltip title="Exercises that rely on short bursts of energy without oxygen.">
-          <ToggleButton value="anaerobic">Anaerobic Cardio</ToggleButton>
+          <ToggleButton value="anaerobic_cardio">Anaerobic Cardio</ToggleButton>
         </Tooltip>
         <Tooltip title="Exercises that involve sustained, moderate-intensity activity with oxygen.">
-          <ToggleButton value="aerobic">Aerobic Cardio</ToggleButton>
+          <ToggleButton value="aerobic_cardio">Aerobic Cardio</ToggleButton>
         </Tooltip>
         <Tooltip title="Exercises focused on building muscle mass and lifting heavier weights.">
           <ToggleButton value="strength">Strength</ToggleButton>
@@ -98,6 +146,7 @@ function BuildWorkout() {
       <Slider
         aria-label="Duration"
         defaultValue={20}
+        onChange={handleDurationChange}
         // getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         shiftStep={5}
@@ -106,9 +155,10 @@ function BuildWorkout() {
         min={20}
         max={120}
       />
-      <ExerciseSets />
+      <ExerciseSets onExerciseSetLoaded={handleExerciseSetReceived} />
 
       <h2>Must-Haves</h2>
+      <Button onClick={handleDoneClick}>Done</Button>
     </>
   );
 }

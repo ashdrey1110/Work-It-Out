@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Grid, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 
-function ExerciseSets() {
+function ExerciseSets({ onExerciseSetLoaded }) {
   const [workout, setWorkout] = useState("");
   const [exerciseSet, setExerciseSet] = useState([]);
 
@@ -12,14 +12,21 @@ function ExerciseSets() {
 
   useEffect(() => {
     if (!workout) {
+      setExerciseSet([]);
       return;
     }
-    let randomPick = Math.floor(Math.random() * 4 + 1);
-    fetch(`http://localhost:3001/${workout}_sets/${randomPick}`)
+    fetch(`http://localhost:8080/${workout}_sets`)
       .then((res) => res.json())
-      .then((data) => setExerciseSet(data[0]))
+      .then((data) => {
+        setExerciseSet(data);
+        onExerciseSetLoaded(data);
+      })
       .catch((e) => console.error("Failed to fetch exercise set data", e));
   }, [workout]);
+
+  const generateSet = () => {
+    return Math.floor(Math.random() * exerciseSet.length);
+  };
 
   return (
     <>
