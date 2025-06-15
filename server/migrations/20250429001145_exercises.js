@@ -8,7 +8,7 @@ exports.up = function (knex) {
     table.string("name");
     table.integer("calories_per_hour");
     table.integer("effort");
-    table.boolean("sport")
+    table.boolean("sport");
     table.integer("upper_body");
     table.integer("lower_body");
     table.integer("full_body");
@@ -21,6 +21,9 @@ exports.up = function (knex) {
     table.integer("strength");
     table.integer("flexibility");
     table.integer("balance");
+    table.integer("low_reps");
+    table.integer("high_reps");
+    table.integer("rep_step");
   });
 };
 
