@@ -6,7 +6,7 @@ exports.up = function (knex) {
   return knex.schema.createTable("hypertrophy_sets", (table) => {
     table.increments("id").primary();
     table.integer("sets");
-    table.integer("reps");
+    table.float("reps");
   });
 };
 

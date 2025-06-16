@@ -8,19 +8,19 @@ exports.seed = async function (knex) {
   await knex("hypertrophy_sets").insert([
     {
       sets: 3,
-      reps: 12,
+      reps: 0.6,
     },
     {
       sets: 4,
-      reps: 10,
+      reps: 0.5,
     },
     {
       sets: 5,
-      reps: 8,
+      reps: 0.4,
     },
     {
       sets: 6,
-      reps: 6,
+      reps: 0.3,
     },
   ]);
 };

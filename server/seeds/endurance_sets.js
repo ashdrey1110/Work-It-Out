@@ -8,19 +8,19 @@ exports.seed = async function (knex) {
   await knex("endurance_sets").insert([
     {
       sets: 2,
-      reps: 15,
+      reps: 0.75,
     },
     {
       sets: 2,
-      reps: 20,
+      reps: 1.0,
     },
     {
       sets: 3,
-      reps: 12,
+      reps: 0.6,
     },
     {
       sets: 3,
-      reps: 15,
+      reps: 0.75,
     },
   ]);
 };

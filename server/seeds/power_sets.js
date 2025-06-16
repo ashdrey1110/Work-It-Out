@@ -8,23 +8,23 @@ exports.seed = async function (knex) {
   await knex("power_sets").insert([
     {
       sets: 3,
-      reps: 5,
+      reps: 0.25,
     },
     {
       sets: 4,
-      reps: 4,
+      reps: 0.2,
     },
     {
       sets: 5,
-      reps: 3,
+      reps: 0.15,
     },
     {
       sets: 5,
-      reps: 2,
+      reps: 0.1,
     },
     {
       sets: 5,
-      reps: 1,
+      reps: 0.05,
     },
   ]);
 };
