@@ -4,15 +4,35 @@ const pick = (options) => {
   return Math.floor(Math.random() * options.length);
 };
 
-// exerciseOptions will contain all possible exercises
+// exerciseOptions will contain all potential exercises
 // duration helps decide how many exercises to randomly pick
 // setOptions provides the number of sets and then the ratio of number of reps
-export default function GenerateWorkout(exerciseOptions, setOptions, duration) {
+export default function GenerateWorkout(
+  exerciseOptions,
+  workoutType,
+  setOptions,
+  duration
+) {
   const workoutMain = [];
-  const numExercises = Math.floor(duration / 9);
+  let numExercises;
+  if (workoutType == "anaerobic_cardio" || "aerobic_cardio") {
+    numExercises = Math.floor(duration / 15);
+  } else {
+    numExercises = Math.floor(duration / 9);
+  }
+
+  const availableExercises = [...exerciseOptions];
+
+  if (numExercises > availableExercises.length) {
+    return [
+      "Hmm... It looks like we couldn't generate the best workout for you. Go Back and try again",
+    ];
+  }
 
   for (let i = 0; i < numExercises; i++) {
-    let exerciseSelector = exerciseOptions[pick(exerciseOptions)];
+    let exerciseIndex = pick(availableExercises);
+    let exerciseSelector = availableExercises[exerciseIndex];
+    availableExercises.splice(exerciseIndex, 1);
     let exerciseName = exerciseSelector.name;
     let setSelector = pick(setOptions);
     let numSets = setOptions[setSelector].sets;
@@ -41,18 +61,13 @@ export default function GenerateWorkout(exerciseOptions, setOptions, duration) {
       reps: numReps,
     });
   }
-
   let workoutArray = workoutMain.map(
     (item) => `${item.sets} x ${item.reps} ${item.exercise}`
   );
-
-  console.log(workoutArray);
+  return workoutArray;
 }
 
 // TO-DO:
 /*
-  - do not let exercises repeat
-  - do not include exercises like stair climber, treamill, which are 60 mins max rep
-  
-
+  - do not include exercises like stair climber or walking etc...
 */
