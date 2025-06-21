@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Grid, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+} from "@mui/material";
 
 function ExerciseSets({ onExerciseSetLoaded }) {
   const [workout, setWorkout] = useState("");
@@ -30,11 +36,8 @@ function ExerciseSets({ onExerciseSetLoaded }) {
 
   return (
     <>
-      <h2>Exercise Sets</h2>
-      <p>
-        Different workout sets push your body in different ways and produce
-        different results.
-      </p>
+      
+
       <Grid container spacing={2}>
         <Grid>
           <ToggleButtonGroup

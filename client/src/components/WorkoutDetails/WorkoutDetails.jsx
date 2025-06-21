@@ -4,11 +4,14 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
   ToggleButtonGroup,
   ToggleButton,
+  Box,
+  Typography,
   Button,
   Grid,
   Tooltip,
   Slider,
 } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function WorkoutDetails() {
   const location = useLocation();
@@ -17,11 +20,34 @@ function WorkoutDetails() {
   //your code here
   return (
     <>
-      <h1> Your Workout</h1>
-      {workoutData.map((item, index) => {
-        return <p key={index}>{item}</p>;
-      })}
-      <Button onClick={() => navigate("/build-workout")}>Go Back</Button>
+      <Typography variant="h1" component="h1" sx={{ py: "10px" }}>
+        Your Workout
+      </Typography>
+      <Button onClick={() => navigate("/build-workout")}>
+        {" "}
+        <ArrowBackIosIcon />
+        Back
+      </Button>
+      <Box sx={{ py: "30px" }}>
+        <Typography variant="body1" component="p" sx={{ py: "10px" }}>
+          Warmup: 10 Minute Treadmill Run
+        </Typography>
+        {workoutData.map((item, index) => {
+          return (
+            <Typography
+              variant="body1"
+              component="p"
+              key={index}
+              sx={{ py: "10px" }}
+            >
+              {item}
+            </Typography>
+          );
+        })}
+        <Typography variant="body1" component="p" sx={{ py: "10px" }}>
+          Cooldown: 10 Minute Treadmill Walk
+        </Typography>
+      </Box>
     </>
   );
 }

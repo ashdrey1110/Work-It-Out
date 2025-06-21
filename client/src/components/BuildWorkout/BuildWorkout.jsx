@@ -5,12 +5,17 @@ import ExerciseSets from "../ExerciseSets/ExerciseSets.jsx";
 import WorkoutAlgo from "../BuildWorkout/WorkoutAlgo.jsx";
 import {
   ToggleButtonGroup,
+  Typography,
+  Box,
   ToggleButton,
   Button,
   Grid,
   Tooltip,
   Slider,
 } from "@mui/material";
+import { headerStyle } from "./style.js";
+import { bodyStyle } from "./style.js";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function BuildWorkout() {
   const [effort, setEffort] = useState(1);
@@ -18,10 +23,9 @@ function BuildWorkout() {
   const [workoutType, setWorkoutType] = useState("");
   const [duration, setDuration] = useState(0);
   const [exerciseSet, setExerciseSet] = useState([]);
-  const [exerciseBank, setExerciseBank] = useState([]);
-  const [workoutItems, setWorkoutItems] = useState([]);
   const [done, setDone] = useState();
   const [isLoading, setIsLoading] = useState();
+  const [missingInputs, setMissingInputs] = useState();
 
   const navigate = useNavigate();
 
@@ -46,14 +50,17 @@ function BuildWorkout() {
   };
 
   const handleDoneClick = () => {
-    setDone(true);
+    if (effort && bodyFocus && workoutType && duration && exerciseSet) {
+      setDone(true);
+    } else {
+      setMissingInputs(true);
+    }
   };
 
   // "/specific/:effort/:focus/:type/:sport"
 
   useEffect(() => {
     if (!done) {
-      setExerciseBank([]);
       return;
     }
     setIsLoading(true);
@@ -62,9 +69,7 @@ function BuildWorkout() {
     )
       .then((res) => res.json())
       .then((data) => {
-        setExerciseBank(data);
         const results = WorkoutAlgo(data, workoutType, exerciseSet, duration);
-        setWorkoutItems(results);
         setIsLoading(false);
         navigate("/workout-details", { state: { workoutData: results } });
       })
@@ -77,13 +82,21 @@ function BuildWorkout() {
         <p>Loading</p>
       ) : (
         <>
-          <Button onClick={() => navigate("/")}>Go Home</Button>
-          <h1>Build Your Workout</h1>
-          <h2>Effort</h2>
-          <p>
+          <Button onClick={() => navigate("/")}>
+            <ArrowBackIosIcon />
+            Home
+          </Button>
+          <Typography variant="h1" component="h1" sx={headerStyle}>
+            Build Your Workout
+          </Typography>
+          {/* <Box component="img" src={imgUrl}></Box> */}
+          <Typography variant="h2" component="h2" sx={headerStyle}>
+            Effort
+          </Typography>
+          <Typography variant="body1" component="p" sx={bodyStyle}>
             Some exercises may be more intense than others. Choose the level of
-            effort you want. 1 being easy and 5 being hard.
-          </p>
+            effort you want. 1 being low and 5 being intense.
+          </Typography>
           <Slider
             aria-label="Effort"
             defaultValue={1}
@@ -96,8 +109,13 @@ function BuildWorkout() {
             min={1}
             max={5}
           />
-          <h2>Body Focus</h2>
-          <p>What part of your body are looking to focus on in this workout?</p>
+
+          <Typography variant="h2" component="h2" sx={headerStyle}>
+            Target Area
+          </Typography>
+          <Typography variant="body1" component="p" sx={bodyStyle}>
+            What area of the body will you focus on today?
+          </Typography>
           <ToggleButtonGroup
             color="primary"
             value={bodyFocus}
@@ -107,20 +125,23 @@ function BuildWorkout() {
             spacing={2}
           >
             <Tooltip title="Arms, shoulders, back, biceps, triceps, chest, core">
-              <ToggleButton value="upper_body">Upper Body</ToggleButton>
+              <ToggleButton value="upper_body">Upper</ToggleButton>
             </Tooltip>
-            <Tooltip title="Legs, quads, hamstrings, glutes, calves">
-              <ToggleButton value="lower_body">Lower Body</ToggleButton>
+            <Tooltip title="Legs, quadraceps, hamstrings, glutes, calves">
+              <ToggleButton value="lower_body">Lower</ToggleButton>
             </Tooltip>
-            <Tooltip title="The whole body, core">
-              <ToggleButton value="full_body">Full Body</ToggleButton>
+            <Tooltip title="The whole body, including core">
+              <ToggleButton value="full_body">Full</ToggleButton>
             </Tooltip>
           </ToggleButtonGroup>
-          <h2>Type of Exercise</h2>
-          <p>
-            Different exercises can help you stay active in different ways. All
-            are important to a balanced lifestyle.
-          </p>
+
+          <Typography variant="h2" component="h2" sx={headerStyle}>
+            Type
+          </Typography>
+          <Typography variant="body1" component="p" sx={bodyStyle}>
+            Different exercises can level up your activity in different ways.
+            What's your type?
+          </Typography>
           <ToggleButtonGroup
             color="primary"
             value={workoutType}
@@ -147,8 +168,13 @@ function BuildWorkout() {
               <ToggleButton value="balance">Balance</ToggleButton>
             </Tooltip>
           </ToggleButtonGroup>
-          <h2>Duration</h2>
-          <p>How long do you want this workout to be? Measured in minutes.</p>
+
+          <Typography variant="h2" component="h2" sx={headerStyle}>
+            Duration
+          </Typography>
+          <Typography variant="body1" component="p" sx={bodyStyle}>
+            How much time do you have? Measured in minutes.
+          </Typography>
           <Slider
             aria-label="Duration"
             defaultValue={20}
@@ -161,10 +187,26 @@ function BuildWorkout() {
             min={20}
             max={120}
           />
+          <Typography variant="h2" component="h2" sx={headerStyle}>
+            Focus
+          </Typography>
+          <Typography variant="body1" component="p" sx={bodyStyle}>
+            This will determine your set-rep structure. Which one is for you?
+          </Typography>
           <ExerciseSets onExerciseSetLoaded={handleExerciseSetReceived} />
-
-          <h2>Must-Haves</h2>
+          <Typography variant="h2" component="h2" sx={headerStyle}>
+            Must-Haves
+          </Typography>
           <Button onClick={handleDoneClick}>Done</Button>
+          {missingInputs && (
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{ ...bodyStyle, color: "red" }}
+            >
+              Please fill out the fields to get your workout
+            </Typography>
+          )}
         </>
       )}
     </>
